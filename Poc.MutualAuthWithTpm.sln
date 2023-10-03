@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.MutualAuthWithTpm.WebServer", "Poc.MutualAuthWithTpm.WebServer\Poc.MutualAuthWithTpm.WebServer.csproj", "{708352C8-3CAF-459E-A17B-5A5B9E072A19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.MutualAuthWithTpm.WebServer", "Poc.MutualAuthWithTpm.WebServer\Poc.MutualAuthWithTpm.WebServer.csproj", "{17645533-9BE5-4DE8-B1C6-E062301A4EA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{708352C8-3CAF-459E-A17B-5A5B9E072A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{708352C8-3CAF-459E-A17B-5A5B9E072A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{708352C8-3CAF-459E-A17B-5A5B9E072A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{708352C8-3CAF-459E-A17B-5A5B9E072A19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17645533-9BE5-4DE8-B1C6-E062301A4EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17645533-9BE5-4DE8-B1C6-E062301A4EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17645533-9BE5-4DE8-B1C6-E062301A4EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17645533-9BE5-4DE8-B1C6-E062301A4EA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
