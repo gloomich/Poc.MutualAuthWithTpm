@@ -4,9 +4,9 @@
 
 namespace Poc.MutualAuthWithTpm.WebServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    public class TestController : ControllerBase
+    public class ServerController : ControllerBase
     {
         // GET: api/<TestController>
         [HttpGet]
