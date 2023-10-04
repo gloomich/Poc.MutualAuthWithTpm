@@ -17,17 +17,17 @@ namespace Poc.MutualAuthWithTpm.ClientService.Controllers
 
         // GET: api/<TestController>
         [HttpGet]
-        public async Task<IActionResult> Ping()
+        public async Task<ActionResult<string>> GetMessageFromServer()
         {
             var httpRequestMessage = new HttpRequestMessage(
             HttpMethod.Get,
-            "https://localhost:7234/api/server/ping2");
+            "https://localhost:7048/api/server/GetMessage");
 
             var httpClient = _httpClientFactory.CreateClient();
             var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
 
             return httpResponseMessage.IsSuccessStatusCode
-                ? Ok()
+                ? await httpResponseMessage.Content.ReadAsStringAsync()
                 : Problem();
         }
     }

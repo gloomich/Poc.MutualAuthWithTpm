@@ -10,9 +10,9 @@ namespace Poc.MutualAuthWithTpm.WebServer.Controllers
     {
         // GET: api/<TestController>
         [HttpGet]
-        public IActionResult Ping()
+        public string GetMessage()
         {
-            return Ok();
+            return Guid.NewGuid().ToString();
         }
 
         //// GET api/<TestController>/5
