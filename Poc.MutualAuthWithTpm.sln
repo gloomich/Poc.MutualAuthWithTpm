@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poc.MutualAuthWithTpm.Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poc.MutualAuthWithTpm.AppGateway", "Poc.MutualAuthWithTpm.AppGateway\Poc.MutualAuthWithTpm.AppGateway.csproj", "{956B1582-67A5-4A39-8F40-E56147E5CCF2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{9D4FB7AE-5719-4E0C-8140-E72392D8E1DF}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\cert.ps1 = Scripts\cert.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

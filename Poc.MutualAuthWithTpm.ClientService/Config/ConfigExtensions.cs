@@ -12,8 +12,15 @@ namespace Poc.MutualAuthWithTpm.ClientService.Config
             this IServiceCollection services,
             IConfiguration config)
         {
-            var clientCertificate =
-                new X509Certificate2("C:/Cert/client_dev_PocMutualAuth.pfx", "1234");
+            var certStore = new X509Store(StoreLocation.CurrentUser);
+            certStore.Open(OpenFlags.ReadOnly);
+
+            var cert = certStore.Certificates
+                .First(x => x.FriendlyName == "TPM POC Client" && x.Verify());
+            //.Find(X509FindType.FindByThumbprint, "3ec637d6b318d3ed186a982ec85617909d9dae98", true)[0];
+
+            //var cert =
+            //    new X509Certificate2("C:/Cert/client_dev_PocMutualAuth.pfx", "1234");
 
             services.AddHttpClient(
                 "DirectHttpClient",
@@ -44,7 +51,7 @@ namespace Poc.MutualAuthWithTpm.ClientService.Config
                     {
                         SslProtocols = SslProtocols.Tls13
                     };
-                    handler.ClientCertificates.Add(clientCertificate);
+                    handler.ClientCertificates.Add(cert);
                     //handler.ServerCertificateCustomValidationCallback =
                     //    (httpRequestMessage, cert, cetChain, policyErrors) => {
                     //        return true;
