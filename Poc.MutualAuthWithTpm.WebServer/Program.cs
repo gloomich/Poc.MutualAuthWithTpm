@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Poc.MutualAuthWithTpm.WebServer.Config;
+using Poc.MutualAuthWithTpm.WebServer.Hubs;
 using System.Text;
 
 namespace Poc.MutualAuthWithTpm.WebServer
@@ -62,7 +64,10 @@ namespace Poc.MutualAuthWithTpm.WebServer
                     ValidateIssuerSigningKey = true
                 };
             });
+            
             builder.Services.AddAuthorization();
+
+            builder.Services.AddSignalRHub<TestHub>(builder.Configuration);
 
             var app = builder.Build();
 
@@ -79,6 +84,8 @@ namespace Poc.MutualAuthWithTpm.WebServer
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.MapSignalRHub<TestHub>();
 
             app.Run();
         }

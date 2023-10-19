@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Poc.MutualAuthWithTpm.ClientService.Models;
+using Poc.MutualAuthWithTpm.ClientService.Services;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -10,40 +11,21 @@ namespace Poc.MutualAuthWithTpm.ClientService.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly SignalRTestService _signalRTestService;
+        private readonly AuthenticationService _authenticationService;
 
         public ClientController(
-            IHttpClientFactory httpClientFactory)
+            IHttpClientFactory httpClientFactory,
+            SignalRTestService signalRTestService,
+            AuthenticationService authenticationService)
         {
             _httpClientFactory = httpClientFactory;
-        }
-
-
-        // GET: api/<TestController>
-        [HttpGet]
-        public async Task<ActionResult<string>> GetMessageDirectly()
-        {
-            var httpClient = _httpClientFactory
-                    .CreateClient("DirectHttpClient");
-
-            var request = new HttpRequestMessage(
-                HttpMethod.Get,
-                "api/server/GetMessage");
-            request.Headers.Authorization = new AuthenticationHeaderValue(
-                "Bearer",
-                await GetTokenAsync(httpClient));
-
-            var httpResponseMessage = await httpClient
-                .SendAsync(request);
-
-            httpResponseMessage
-                .EnsureSuccessStatusCode();
-
-            return await httpResponseMessage.Content
-                .ReadAsStringAsync();
+            _signalRTestService = signalRTestService;
+            _authenticationService = authenticationService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetMessageThroughProxy()
+        public async Task<ActionResult<string>> GetMessage()
         {
             var httpClient = _httpClientFactory
                     .CreateClient("ProxyHttpClient");
@@ -53,7 +35,7 @@ namespace Poc.MutualAuthWithTpm.ClientService.Controllers
                 "api/server/GetMessage");
             request.Headers.Authorization = new AuthenticationHeaderValue(
                 "Bearer",
-                await GetTokenAsync(httpClient));
+                await _authenticationService.GetTokenAsync());
 
             var httpResponseMessage = await httpClient
                 .SendAsync(request);
@@ -65,18 +47,10 @@ namespace Poc.MutualAuthWithTpm.ClientService.Controllers
                 .ReadAsStringAsync();
         }
 
-        private async Task<string> GetTokenAsync(HttpClient httpClient)
+        [HttpGet]
+        public async Task<ActionResult<string>> SendSignalRMessage(string msg)
         {
-            var httpResponseMessage = await httpClient
-                .PostAsync("api/Auth/Login", null);
-
-            httpResponseMessage
-                .EnsureSuccessStatusCode();
-
-            var jwtToken = await httpResponseMessage.Content
-                .ReadFromJsonAsync<JwtToken>();
-
-            return jwtToken?.Token ?? throw new Exception("Token is empty");
+            return await _signalRTestService.SendMessageAsync(msg);
         }
     }
 }
