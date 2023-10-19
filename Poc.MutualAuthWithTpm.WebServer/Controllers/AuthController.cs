@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -23,14 +21,12 @@ namespace Poc.MutualAuthWithTpm.WebServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(bool success = true)
+        public IActionResult Login()
         {
-            if (!success)
+            return Ok(new
             {
-                return Unauthorized();
-            }
-
-            return Ok(new { token = GenerateJSONWebToken() });
+                token = GenerateJSONWebToken()
+            });
         }
 
         private string GenerateJSONWebToken()

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Poc.MutualAuthWithTpm.ClientService.Config;
+using Microsoft.Extensions.Configuration;
 
 namespace Poc.MutualAuthWithTpm.ClientService
 {
@@ -17,6 +18,12 @@ namespace Poc.MutualAuthWithTpm.ClientService
         public void Start()
         {
             _webServerTask = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    builder
+                        .AddJsonFile("appsettings.json", optional: false)
+                        .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder

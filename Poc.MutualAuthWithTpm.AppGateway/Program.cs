@@ -53,7 +53,7 @@ builder.Services.Configure<KestrelServerOptions>(options =>
     {
         httpsOptions.ServerCertificate = certificate;
         httpsOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
-        httpsOptions.SslProtocols = SslProtocols.Tls13;
+        httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
         //httpsOptions.ClientCertificateValidation =
         //    (certificate, chain, errors) =>
         //    {                
