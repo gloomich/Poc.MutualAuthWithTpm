@@ -1,9 +1,8 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Poc.MutualAuthWithTpm.WebServer.Config;
-using Poc.MutualAuthWithTpm.WebServer.Hubs;
+using Poc.MutualAuthWithTpm.SignalR;
+using Poc.MutualAuthWithTpm.SignalR.Config;
 using System.Text;
 
 namespace Poc.MutualAuthWithTpm.WebServer

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Topshelf.Configurators;
@@ -45,7 +46,7 @@ namespace Poc.MutualAuthWithTpm.ClientService.Services
                 })
                 .Build();
 
-            _connection.On<string>("ReceiveMsg", OnReceiveMsg);
+            _connection.On<string>("Receive", OnReceiveMsg);
 
             _ = _connection.StartAsync();            
         }
@@ -55,9 +56,14 @@ namespace Poc.MutualAuthWithTpm.ClientService.Services
             return await _connection.InvokeAsync<string>("SendMessage", msg);
         }
 
-        private void OnReceiveMsg(string obj)
+        internal async Task BroadcastMessageAsync(string msg)
         {
-            throw new NotImplementedException();
+            await _connection.SendAsync("BroadcastMessage", msg);
+        }
+
+        private void OnReceiveMsg(string msg)
+        {
+            Console.WriteLine(msg);
         }
 
         public class RetryPolicyLoop : IRetryPolicy

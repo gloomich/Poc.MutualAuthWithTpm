@@ -52,5 +52,13 @@ namespace Poc.MutualAuthWithTpm.ClientService.Controllers
         {
             return await _signalRTestService.SendMessageAsync(msg);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> BroadcastSignalRMessage(string msg)
+        {
+            await _signalRTestService.BroadcastMessageAsync(msg);
+
+            return Ok();
+        }
     }
 }

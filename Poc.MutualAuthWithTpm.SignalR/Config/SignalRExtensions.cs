@@ -1,19 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using Poc.MutualAuthWithTpm.WebServer.Options;
+using Poc.MutualAuthWithTpm.SignalR.Options;
 using System.Net.Http.Headers;
 
-namespace Poc.MutualAuthWithTpm.WebServer.Config
+namespace Poc.MutualAuthWithTpm.SignalR.Config
 {
     public static class SignalRExtensions
     {
         public static ISignalRServerBuilder AddSignalRHub<THub>(
             this IServiceCollection services,
             IConfiguration config,
-            string signalRConfigSectionName = "SignalR")
+            string signalRConfigSectionName = "SignalR",
+            bool withAuth = true)
             where THub : Hub
         {
             var signalRConfig = config.GetSection(
@@ -22,7 +27,9 @@ namespace Poc.MutualAuthWithTpm.WebServer.Config
             var signalROptions = signalRConfig
                 .Get<SignalROptions<THub>>();
 
-            services.AddJwtAuthPassthrough(signalROptions.HubPath);
+            if (withAuth) { 
+                services.AddJwtAuthPassthrough(signalROptions.HubPath);
+            }
 
             return services
                 .AddSignalR()
@@ -32,6 +39,10 @@ namespace Poc.MutualAuthWithTpm.WebServer.Config
                     //options.KeepAliveInterval = TimeSpan.FromSeconds(10);
                     options.ClientTimeoutInterval = TimeSpan.FromMinutes(5);
                     //options.HandshakeTimeout = TimeSpan.FromMinutes(1);
+                })
+                .AddStackExchangeRedis(signalROptions.RedisConnectionString, options =>
+                {
+                    options.Configuration.ChannelPrefix = "MyApp";
                 });
         }
 

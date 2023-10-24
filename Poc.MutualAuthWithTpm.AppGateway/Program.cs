@@ -44,10 +44,12 @@ builder.Services
 //    });
 
 builder.Services.Configure<KestrelServerOptions>(options =>
-{
-    var certificate = new X509Certificate2(
-        "C:/Cert/server_dev_PocMutualAuth.pfx",
-        "1234");
+{    
+    var certStore = new X509Store(StoreLocation.CurrentUser);
+    certStore.Open(OpenFlags.ReadOnly);
+
+    var certificate = certStore.Certificates
+        .First(x => x.FriendlyName == "TPM POC Server" && x.Verify());
 
     options.ConfigureHttpsDefaults(httpsOptions =>
     {
